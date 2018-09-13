@@ -7,8 +7,6 @@
 
 ## How to use
 
----
-
 ### example
 html :
 
