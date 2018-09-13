@@ -128,6 +128,8 @@
 	rawFile.onreadystatechange = function() {
 		if (rawFile.readyState === 4 && rawFile.status == "200") {
 			edit.value = rawFile.responseText;
+			output.value = JDA.read(edit.value).text;
+			preview.innerHTML = marked(output.value);
 		}
 	}
 	rawFile.send(null);
