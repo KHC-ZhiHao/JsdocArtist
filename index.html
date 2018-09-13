@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>JsdocArtist</title>
+</head>
+
+<body>
+
+	<!-- header -->
+	<div id="header">
+		JsdocArtist
+	</div>
+
+	<!-- editor -->
+	<div id="editor">
+		<div class="edit-block">
+			<div class="edit-name">CODE</div>
+			<textarea id="edit"></textarea>
+		</div>
+		<div class="edit-block">
+			<div class="edit-name">MARKDOWN</div>
+			<textarea id="output" readonly></textarea>
+		</div>
+		<div class="edit-block">
+			<div class="edit-name">PREVIEW</div>
+			<div id="preview"></div>
+		</div>
+	</div>
+
+</body>
+
+<style>
+
+	* {
+		padding: 0;
+		margin: 0;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box
+	}
+
+	#header{
+		height: 10vh;
+		padding: 10px;
+		font-size: 3em;
+	}
+
+	#editor{
+		text-align: center;
+		height: 89vh;
+	}
+
+	#preview{
+		padding: 10px;
+		width: 100%;
+		height: 95%;
+		overflow: auto;
+	}
+
+	#preview * {
+		margin-bottom: 7px;
+	}
+
+	.edit-block{
+		text-align: left;
+		width: 33%;
+		height: 100%;
+		display: inline-block;
+		border: #BBB 1px solid;
+	}
+
+	.edit-name{
+		padding: 5px;
+		height: 5%;
+		background-color: #DDD;
+	}
+
+	textarea{
+		padding: 10px;
+		width: 100%;
+		height: 95%;
+		resize: none;
+		border: none;
+	}
+
+	textarea:focus, input:focus{
+		outline: none;
+	}
+
+</style>
+
+<script src="./dist/index.js"></script>
+<script src="./template/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+
+	let output = document.getElementById("output");
+	let preview = document.getElementById("preview");
+	let edit = document.getElementById("edit");
+		edit.addEventListener("input",function(){
+			output.value = JDA.read(edit.value).text;
+			preview.innerHTML = marked(output.value);
+		});
+
+	var rawFile = new XMLHttpRequest();
+	rawFile.overrideMimeType("application/json");
+	rawFile.open("GET", "./dist/JsdocArtist.js");
+	rawFile.onreadystatechange = function() {
+		if (rawFile.readyState === 4 && rawFile.status == "200") {
+			edit.value = rawFile.responseText;
+		}
+	}
+	rawFile.send(null);
+
+</script>
+
+</html>
